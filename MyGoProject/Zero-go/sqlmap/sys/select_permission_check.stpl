@@ -1,0 +1,8 @@
+SELECT rp.*, p.name, p.build_in
+FROM
+role_permission rp
+JOIN permission p
+where rp.deleted_at is null
+and rp.permission_id = p.id
+and role_id = ?role_id
+and p.url = ?url

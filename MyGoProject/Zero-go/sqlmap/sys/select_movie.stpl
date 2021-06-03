@@ -1,0 +1,12 @@
+SELECT *
+FROM
+movie_info e
+where e.deleted_at is null
+{% if keyword %}
+    and (e.movie_id like ?keyword or e.title like ?keyword or e.types like ?keyword or e.year like ?keyword
+     or e.aka like ?keyword or e.tags like ?keyword or e.original_title like ?keyword)
+{% endif %}
+order by e.id desc
+{% if limit %}
+    limit ?offset,?limit
+{% endif %}

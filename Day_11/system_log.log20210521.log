@@ -1,0 +1,2 @@
+{"client_ip":"127.0.0.1","level":"info","msg":"","req_method":"GET","req_uri":"/logrus2","status_code":200,"time":"2021-05-21 16:20:53"}
+{"client_ip":"127.0.0.1","level":"info","msg":"","req_method":"GET","req_uri":"/logrus2","status_code":200,"time":"2021-05-21 16:21:07"}

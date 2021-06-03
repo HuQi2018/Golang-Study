@@ -1,0 +1,14 @@
+#go get github.com/spf13/viper
+server:
+  port: 9901
+datasource:
+  driverName: mysql
+  host: 127.0.0.1
+  port: "3306"
+  database: gotest
+  username: gotest
+  password: gotest
+  charset: utf8mb4
+  loc: Asia/Shanghai
+setting:
+  jwtKey: a_secret_key

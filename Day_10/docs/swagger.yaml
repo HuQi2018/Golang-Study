@@ -1,0 +1,57 @@
+info:
+  contact: {}
+paths:
+  /login:
+    get:
+      consumes:
+      - application/json
+      description: Login
+      parameters:
+      - description: 用户名
+        in: query
+        name: username
+        required: true
+        type: string
+      - description: 密码
+        in: query
+        name: password
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200, "data": "{"name": "user_name", "password": "password"}",
+            "msg": "OK"}'
+          schema:
+            type: string
+      summary: 登录
+      tags:
+      - 登录接口
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Register
+      parameters:
+      - description: 用户名
+        in: formData
+        name: user_name
+        required: true
+        type: string
+      - description: 密码
+        in: formData
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200, "data": "{"name": "user_name", "password": "password"}",
+            "msg": "OK"}'
+          schema:
+            type: string
+      summary: 注册
+      tags:
+      - 注册接口
+swagger: "2.0"

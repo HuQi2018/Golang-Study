@@ -1,0 +1,8 @@
+SELECT count(*)
+FROM
+movie_info
+where deleted_at is null
+{% if keyword %}
+    and (movie_id like ?keyword or title like ?keyword or types like ?keyword or year like ?keyword
+     or aka like ?keyword or tags like ?keyword or original_title like ?keyword)
+{% endif %}

@@ -1,0 +1,57 @@
+package v1
+
+import (
+	"Zero-go/internal/model/sys"
+	sys_service "Zero-go/internal/service/sys"
+	"github.com/gin-gonic/gin"
+)
+
+var (
+	sysMenuService = &sys_service.SysMenuService{}
+)
+
+type SysMenuController struct {
+	Router gin.IRouter
+}
+
+func (self *SysMenuController) Setup() {
+	self.Router.GET("/sys_menu/query", self.FindAll)
+	self.Router.POST("/sys_menu/save", self.Save)
+	self.Router.GET("/sys_menu/del", self.Delete)
+}
+
+func (*SysMenuController) FindAll(c *gin.Context) {
+	menus, err := sysMenuService.FindAll()
+	if err != nil {
+		ResponseError(c, err)
+		return
+	}
+
+	ResponseOK(c, menus)
+}
+
+func (*SysMenuController) Save(c *gin.Context) {
+	menu := new(sys.SysMenu)
+	if err := BindJSON(c, menu); err != nil {
+		ResponseErrorf(c, "请求的数据不合法: %s", err)
+		return
+	}
+
+	if err := sysMenuService.Save(menu); err != nil {
+		ResponseError(c, err)
+		return
+	}
+
+	ResponseOK(c, "")
+}
+
+func (*SysMenuController) Delete(c *gin.Context) {
+	menuId := GetInt64("menu_id", c)
+
+	if err := roleMenuService.Delete(menuId); err != nil {
+		ResponseError(c, err)
+		return
+	}
+
+	ResponseOK(c, "")
+}

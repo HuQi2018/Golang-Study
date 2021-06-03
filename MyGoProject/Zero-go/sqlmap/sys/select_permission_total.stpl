@@ -1,0 +1,14 @@
+SELECT count(0)
+FROM
+permission
+where deleted_at is null
+{% if keyword %}
+    and
+    (group_id in (
+       	SELECT id FROM permission
+       	where deleted_at is null
+       	and group_id = 0
+       	and name like ?keyword
+    )    or    name like ?keyword)
+
+{% endif %}

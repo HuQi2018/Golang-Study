@@ -1,0 +1,4 @@
+SELECT rm.*, sm.route_link FROM role_menu rm JOIN sys_menu sm
+where rm.menu_id = sm.id
+and role_id = ?role_id
+and checked = ?checked

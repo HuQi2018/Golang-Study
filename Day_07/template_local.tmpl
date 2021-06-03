@@ -1,0 +1,116 @@
+{{/* 打印参数的值 在模板中使用注释 */}}
+Val is {{.val}} !
+
+{{/*模板中输出复杂类型 */}}
+Inventory
+SKU: {{.Inventory.SKU}}
+Name: {{.Inventory.Name}}
+UnitPrice: {{.Inventory.UnitPrice}}
+Quantity: {{.Inventory.Quantity}}
+{{/*模板中使用结构变量的方法 */}}
+Subtotal: {{.Inventory.Subtotal}}
+
+{{/*模板中使用with输出复杂类型，使模板内容更加简洁易懂 */}}
+{{with .Inventory}}
+	SKU: {{.SKU}}
+	Name: {{.Name}}
+	UnitPrice: {{.UnitPrice}}
+	Quantity: {{.Quantity}}
+{{end}}
+
+{{/*模板中支持定义变量
+在这里，我们需要注意的是以下三点：
+	变量的定义（或首次获得赋值）必须使用 := 的语法。
+	获取变量值时，直接在相应位置使用美元符号加上变量名称即可。
+	所有有关变量的操作都属于模板语法的一部分，因此需要使用双层大括号将其包裹起来。
+*/}}
+{{$name := "Alice"}}
+{{$age := 18}}
+{{$round2 := true}}
+Name: {{$name}}
+Age: {{$age}}
+Round2: {{$round2}}
+
+{{/*模板中使用“=”号重新赋值变量 */}}
+{{$name = "Bob"}}
+Name: {{$name}}
+{{$name := "Bob1231"}}
+Name: {{$name}}
+
+{{/*在模板中使用条件判断（if 语句） */}}
+{{if .yIsZero}}
+除数不能为 0
+{{else}}
+整除结果为：{{.result}}
+{{end}}
+
+{{/*在模板中使用等式与不等式
+用于等式与不等式判断的函数主要有以下六种（均接受两个，分别名为 arg1 和 arg2 的参数）：
+eq：当等式 arg1 == arg2 成立时，返回 true，否则返回 false
+ne：当不等式 arg1 != arg2 成立时，返回 true，否则返回 false
+lt：当不等式 arg1 < arg2 成立时，返回 true，否则返回 false
+le：当不等式 arg1 <= arg2 成立时，返回 true，否则返回 false
+gt：当不等式 arg1 > arg2 成立时，返回 true，否则返回 false
+ge：当不等式 arg1 >= arg2 成立时，返回 true，否则返回 false
+*/}}
+{{$name1 := "alice"}}
+{{$name2 := "bob"}}
+{{$age1 := 18}}
+{{$age2 := 23}}
+
+{{if eq $age1 $age2}}
+年龄相同
+{{else}}
+年龄不相同
+{{end}}
+
+{{if ne $name1 $name2}}
+名字不相同
+{{end}}
+
+{{if gt $age1 $age2}}
+alice 年龄比较大
+{{else}}
+bob 年龄比较大
+{{end}}
+
+{{/*在模板中使用迭代操作（range 语句）  迭代操作，数组（Array）、切片（Slice）和 map 类型 */}}
+{{range $i, $arrList := .arrLists}}
+{{$i}}. {{$arrList}}
+{{end}}
+
+{{/*在模板中迭代所有类型 */}}
+{{range $name, $val := .}}
+{{$name}}: {{$val}}
+{{end}}
+
+{{/*模板中的空白符号处理 */}}
+{{- with .Inventory}}
+SKU: {{.SKU}}
+Name: {{.Name}}
+UnitPrice: {{.UnitPrice}}
+Quantity: {{.Quantity}}
+{{- end}}
+
+{{/*模板中的作用域
+当我们在模板中使用 := 的时候，模板引擎会在当前作用域内新建一个同名的模板变量（等同于程序代码中本地变量和全局变量的区别），
+在同个作用域内对这个模板变量的操作都不会影响到其它作用域。*/}}
+{{$name1 := "alice"}}
+name1: {{$name1}}
+{{with true}}
+	{{$name1 = "alice2"}}
+	{{$name2 := "bob"}}
+	name2: {{$name2}}
+{{end}}
+name1 after with: {{$name1}}（name1被修改）
+name2 after with: {{$name2}}
+
+{{$name1 := "alice"}}
+name1: {{$name1}}
+{{with true}}
+	{{$name1 := "alice2"}}
+	{{$name2 := "bob"}}
+	name1 in with: {{$name1}}
+	name2: {{$name2}}
+{{end}}
+name1 after with: {{$name1}}（name1未被修改）
